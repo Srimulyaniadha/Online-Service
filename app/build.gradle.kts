@@ -64,5 +64,7 @@ dependencies {
     //Library untuk menampilkan gambar melalui url
     implementation ("com.github.bumptech.glide:glide:4.14.2")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.14.2")
+//library untuk menampilkan gambar bergerak splashscreen
+    implementation ("com.airbnb.android:lottie:5.2.0")
 }
 

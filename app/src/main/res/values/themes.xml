@@ -24,4 +24,9 @@
         parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.OnlineService.PopupOverlay"
         parent="ThemeOverlay.AppCompat.Light" />
+    <style name="SplashScreenStyle"
+        parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@color/white</item>
+    </style>
 </resources>
