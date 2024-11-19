@@ -22,7 +22,20 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
-    <string name="register">Tidak punya akun, silahkan
-<u><b>Mendaftar</b></u></string>
+    <string name="register">Tidak punya akun, silahkan<u><b>Mendaftar</b></u></string>
     <string name="medsos">Kunjungi Media Sosial Kami</string>
+
+    <!--form register-->
+    <string name="daftar">Daftar Akun</string>
+    <string name="nama">Nama</string>
+    <string name="tanggal_lahir">Tanggal Lahir</string>
+    <array name="jenis_kelamin">
+        <item>Jenis Kelamin</item>
+        <item>Pria</item>
+        <item>Wanita</item>
+    </array>
+    <string name="no_hp">Nomor HP</string>
+    <string name="alamat">Alamat</string>
+    <string name="konfirmasi_password">Konfirmasi Password</string>
+    <string name="submit">Submit</string>
 </resources>

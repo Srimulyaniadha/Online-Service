@@ -1,5 +1,6 @@
 package id.ac.polbeng.srimulyaniadha.onlineservice.activities
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -9,16 +10,23 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import id.ac.polbeng.srimulyaniadha.onlineservice.R
 import id.ac.polbeng.srimulyaniadha.onlineservice.databinding.ActivityMainBinding
+import id.ac.polbeng.srimulyaniadha.onlineservice.databinding.NavHeaderBinding
+import id.ac.polbeng.srimulyaniadha.onlineservice.helpers.Config
+import id.ac.polbeng.srimulyaniadha.onlineservice.helpers.SessionHandler
+import id.ac.polbeng.srimulyaniadha.onlineservice.models.User
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private lateinit var session : SessionHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +53,22 @@ class MainActivity : AppCompatActivity() {
             logoutDialog()
             true
         }
+        session = SessionHandler(applicationContext)
+        val user: User? = session.getUser()
+        if(user != null) {
+            val headerView = binding.navView.getHeaderView(0)
+            val headerBinding = NavHeaderBinding.bind(headerView)
+            val url = Config.PROFILE_IMAGE_URL + user.gambar
+            Glide.with(applicationContext)
+                .load(url)
+                .apply(
+                    RequestOptions()
+                        .placeholder(R.drawable.user)
+                        .error(R.drawable.user))
+                .into(headerBinding.ivUser)
+            headerBinding.tvName.text = user.nama
+            headerBinding.tvEmail.text = user.email
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -59,11 +83,16 @@ class MainActivity : AppCompatActivity() {
         builder.setMessage("Apakah anda yakin keluar dari akun saat ini?")
         builder.setIcon(R.drawable.ic_baseline_exit_to_app_24)
         builder.setPositiveButton("Ya") { dialog, _ ->
-            Snackbar.make(binding.root, "Anda mengklik Ya!", Snackbar.LENGTH_SHORT).show()
             dialog.dismiss()
+            session.removeUser()
+            val intent = Intent(applicationContext,
+                LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+
         }
         builder.setNegativeButton("Tidak"){ dialog, _ ->
-            Snackbar.make(binding.root, "Anda mengklik Tidak!", Snackbar.LENGTH_SHORT).show()
             dialog.dismiss()
         }
         val alertDialog: AlertDialog = builder.create()
