@@ -27,8 +27,10 @@ import retrofit2.Call
 import retrofit2.Response
 
 class ProfileFragment : Fragment() {
+
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -61,6 +63,10 @@ class ProfileFragment : Fragment() {
             binding.tvAlamat.text = titikDua + user.alamat
             binding.tvEmail.text = titikDua + user.email
             binding.tvWaktuSesi.text = titikDua + session.getExpiredTime()
+        }
+        binding.btnEditProfil.setOnClickListener {
+            val intent = Intent(context, EditProfileActivity::class.java)
+            startActivity(intent)
         }
         return root
     }

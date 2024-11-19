@@ -15,17 +15,27 @@
         android:theme="@style/Theme.OnlineService"
         tools:targetApi="31">
         <activity
-            android:name=".activities.RegisterActivity"
-            android:exported="true"
-            android:label="@string/daftar"
-            android:parentActivityName=".activities.LoginActivity"/>
+            android:name=".activities.EditProfileActivity"
+            android:exported="false"
+            android:label="@string/ubah_profile"
+            android:parentActivityName=".activities.MainActivity"/>
         <meta-data
             android:name="android.app.lib_name"
             android:value="" />
         <activity
+            android:name=".activities.RegisterActivity"
+            android:exported="true"
+            android:label="@string/daftar"
+            android:parentActivityName=".activities.LoginActivity" />
+
+        <meta-data
+            android:name="android.app.lib_name"
+            android:value="" />
+
+        <activity
             android:name=".activities.LoginActivity"
             android:exported="true"
-            android:theme="@style/Theme.OnlineService.NoActionBar"></activity>
+            android:theme="@style/Theme.OnlineService.NoActionBar" />
 
         <meta-data
             android:name="android.app.lib_name"
