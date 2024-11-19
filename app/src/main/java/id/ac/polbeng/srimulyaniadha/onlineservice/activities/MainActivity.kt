@@ -21,7 +21,6 @@ import id.ac.polbeng.srimulyaniadha.onlineservice.helpers.Config
 import id.ac.polbeng.srimulyaniadha.onlineservice.helpers.SessionHandler
 import id.ac.polbeng.srimulyaniadha.onlineservice.models.User
 
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
