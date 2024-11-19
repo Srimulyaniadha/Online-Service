@@ -2,10 +2,15 @@ package id.ac.polbeng.srimulyaniadha.onlineservice.services
 
 import id.ac.polbeng.srimulyaniadha.onlineservice.helpers.Config
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 object ServiceBuilder {
+    //create logger
+    private val logger: HttpLoggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+
     //create okhttp client
     private val okHttp: OkHttpClient.Builder = OkHttpClient.Builder()
 
