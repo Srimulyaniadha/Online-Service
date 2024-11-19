@@ -68,10 +68,64 @@ class ProfileFragment : Fragment() {
             val intent = Intent(context, EditProfileActivity::class.java)
             startActivity(intent)
         }
+        binding.btnHapusUser.setOnClickListener {
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Hapus Akun")
+            builder.setMessage("Apakah anda yakin menghapus akun? Anda tidak akan bisa lagi login ke akun.")
+
+                    builder.setIcon(R.drawable.baseline_delete_forever_24)
+                    builder.setPositiveButton("Ya"){ dialog, _ ->
+                val userService: UserService =
+                    ServiceBuilder.buildService(UserService::class.java)
+                val requestCall: Call<DefaultResponse> =
+                    userService.deleteUser(user?.id!!)
+                showLoading(true)
+                requestCall.enqueue(object:
+                    retrofit2.Callback<DefaultResponse>{
+                    override fun onFailure(call: Call<DefaultResponse>,
+                                           t: Throwable) {
+                        showLoading(false)
+                        Toast.makeText(context, "Error terjadi ketika sedang menghapus user: " + t.toString(), Toast.LENGTH_LONG).show()
+                    }
+                    override fun onResponse(
+                        call: Call<DefaultResponse>,
+                        response: Response<DefaultResponse>
+                    ) {
+                        showLoading(false)
+                        if(!response.body()?.error!!) {
+                            val defaultResponse: DefaultResponse =
+                                response.body()!!
+                            defaultResponse.let {
+                                session.removeUser()
+                                Toast.makeText(context,
+                                    defaultResponse.message, Toast.LENGTH_LONG).show()
+                                val intent = Intent(context,
+                                    LoginActivity::class.java)
+                                intent.flags =
+                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                startActivity(intent)
+                            }
+                        }else{
+                            Toast.makeText(context, "Gagal menghapus user: " + response.body()?.message, Toast.LENGTH_LONG).show()
+                        }
+                    }
+                })
+                dialog.dismiss()
+            }
+                    builder.setNegativeButton("Tidak"){ dialog, _ ->
+                dialog.dismiss()
+            }
+                val alertDialog: AlertDialog = builder.create()
+            alertDialog.show()
+        }
         return root
     }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE
+        else View.GONE
     }
 }
